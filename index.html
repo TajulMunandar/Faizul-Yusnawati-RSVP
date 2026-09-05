@@ -212,7 +212,7 @@ section.wide{max-width:980px}
 }
 
 /* ACARA */
-.events{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:28px; text-align:left}
+.events{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:28px; text-align:left}
 .e-card{
   background:#fff; border:1px solid var(--line); padding:28px 26px; position:relative;
 }
@@ -240,6 +240,7 @@ section.wide{max-width:980px}
 }
 .cd-num{font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; line-height:1}
 .cd-lbl{font-family:'Instrument Sans',sans-serif; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-top:4px}
+@media(max-width:960px){.events{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){.events{grid-template-columns:1fr} .e-date{font-size:46px}}
 
 /* RSVP */
@@ -355,17 +356,17 @@ footer p{font-size:13px; color:var(--muted); margin-top:10px}
     <p class="lead">Dengan memohon ridha Allah SWT, kami mengundang Anda untuk menjadi saksi janji suci kami.</p>
     <div class="couple-grid">
       <div class="couple-card">
-        <div class="arch-wrap"><div class="arch"><img src="foto/ARF_3839.JPEG" alt="Yusnawati"></div></div>
-        <div class="couple-name">Yusnawati</div>
-        <div class="couple-nick">Yusna</div>
-        <div class="couple-meta">Putri kedua<br><strong>ALM Muzakir Walad</strong> & <strong>Murniati</strong><br><em>Sampoinit Jalan Buwah, Gampong Blang Rheu</em></div>
-      </div>
-      <div class="couple-amp">&</div>
-      <div class="couple-card">
         <div class="arch-wrap"><div class="arch"><img src="foto/ARF_3828.JPEG" alt="Faizul Yusdi"></div></div>
         <div class="couple-name">Faizul Yusdi</div>
         <div class="couple-nick">Jhon · Paijul</div>
         <div class="couple-meta">Putra pertama<br><strong>Faisal M Amin</strong> & <strong>Yusnidar</strong><br><em>Alue Awe, Dusun Chik Mahmud, Kota Lhokseumawe</em><br><em style="color:var(--brass)">@faizulyusdi01</em> · Anak ke-1</div>
+      </div>
+      <div class="couple-amp">&</div>
+      <div class="couple-card">
+        <div class="arch-wrap"><div class="arch"><img src="foto/ARF_3839.JPEG" alt="Yusnawati"></div></div>
+        <div class="couple-name">Yusnawati</div>
+        <div class="couple-nick">Yusna</div>
+        <div class="couple-meta">Putri kedua<br><strong>ALM Muzakir Walad</strong> & <strong>Murniati</strong><br><em>Sampoinit Jalan Buwah, Gampong Blang Rheu</em></div>
       </div>
     </div>
   </section>
@@ -426,6 +427,13 @@ footer p{font-size:13px; color:var(--muted); margin-top:10px}
           <div class="e-time">Senin, 18 Mei 2026 — 10.00 WIB s.d. selesai</div>
           <div class="e-place">KUA Baktiya Barat</div>
           <div class="e-actions"><a class="btn-line" id="mapsAkadBtn" target="_blank" rel="noopener">Lihat Lokasi →</a></div>
+        </div>
+        <div class="e-card" style="color:var(--ink)">
+          <div class="e-kicker">Intat Linto</div>
+          <div class="e-date">27 <small>Sep</small></div>
+          <div class="e-time">Minggu, 27 September 2026 — 10.00 WIB s.d. selesai</div>
+          <div class="e-place">Kediaman Mempelai Wanita</div>
+          <div class="e-addr">Sampoinit Jalan Buwah, Gampong Blang Rheu</div>
         </div>
         <div class="e-card" style="color:var(--ink)">
           <div class="e-kicker">Resepsi</div>
