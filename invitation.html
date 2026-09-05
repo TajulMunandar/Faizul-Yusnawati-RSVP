@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buat Link Undangan per Tamu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=EB+Garamond:wght@400;500&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
+
+<script>
+  // Nama file undangan utama — ubah bila Anda mengganti nama filenya
+  const MAIN_INVITATION_FILE = "index.html";
+</script>
+
+<style>
+  :root{
+    --cream:#FBF3F0; --ink:#3A1418; --ink-soft:#6B3439;
+    --gold:#7A1F2B; --gold-deep:#5A1620; --gold-light:#B85C63;
+    --line:#E3C6BF; --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family:'EB Garamond',serif; font-size:17px; line-height:1.6;
+    min-height:100vh;
+  }
+  .wrap{ max-width:560px; margin:0 auto; padding:60px 24px 80px; }
+  .script{ font-family:'Cormorant Garamond',serif; font-weight:500; font-style:italic; }
+  header{ text-align:center; margin-bottom:38px; }
+  .eyebrow{ font-family:'Cormorant Garamond',serif; letter-spacing:.3em; text-transform:uppercase; font-size:.8rem; color:var(--gold-deep); }
+  header .title{ font-size:2.4rem; color:var(--gold-deep); margin:6px 0 0; }
+
+  .card{ background:var(--white); border:1px solid var(--line); padding:30px 26px; }
+  label{ font-size:.85rem; letter-spacing:.06em; color:var(--ink-soft); display:block; margin-bottom:8px; }
+  input[type=text]{
+    width:100%; font-family:'EB Garamond',serif; font-size:1.05rem;
+    padding:12px 14px; border:1px solid var(--line); background:var(--cream); color:var(--ink);
+  }
+  .gen-btn{
+    margin-top:16px; width:100%; background:var(--gold-deep); color:var(--white); border:none;
+    padding:14px; font-family:'Cormorant Garamond',serif; letter-spacing:.12em; text-transform:uppercase;
+    font-size:.95rem; cursor:pointer;
+  }
+  .gen-btn:hover{ background:var(--ink); }
+
+  .result{ margin-top:22px; display:none; }
+  .result.show{ display:block; }
+  .link-box{
+    display:flex; gap:8px; align-items:stretch; margin-top:8px;
+  }
+  .link-box input{ flex:1; font-size:.92rem; background:var(--cream); }
+  .action-btn{
+    border:1px solid var(--gold-deep); background:none; color:var(--gold-deep);
+    padding:0 16px; font-size:.85rem; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; white-space:nowrap;
+  }
+  .action-btn:hover{ background:var(--gold-deep); color:var(--white); }
+
+  .wa-btn{
+    display:inline-block; margin-top:12px; text-decoration:none;
+    background:var(--gold-deep); color:var(--white); padding:11px 18px; font-size:.9rem;
+    letter-spacing:.04em;
+  }
+  .wa-btn:hover{ background:var(--gold); }
+
+  .history{ margin-top:40px; }
+  .history h3{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:1.15rem; border-bottom:1px solid var(--line); padding-bottom:8px; }
+  .history-item{
+    display:flex; justify-content:space-between; align-items:center; gap:10px;
+    padding:10px 0; border-bottom:1px solid var(--line); font-size:.92rem;
+  }
+  .history-item .name{ font-weight:500; }
+  .history-item button{ background:none; border:none; color:var(--gold-deep); cursor:pointer; font-size:.8rem; text-decoration:underline; }
+  .empty{ color:var(--ink-soft); font-size:.9rem; font-style:italic; padding:14px 0; }
+  .note{ font-size:.85rem; color:var(--ink-soft); margin-top:10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Panel Undangan</div>
+    <div class="title script">Buat Link Tamu</div>
+  </header>
+
+  <div class="card">
+    <label for="guestName">Nama Tamu</label>
+    <input type="text" id="guestName" placeholder="Contoh: Bapak Ahmad Sekeluarga">
+    <button class="gen-btn" id="genBtn">Buat Link Undangan</button>
+
+    <div class="result" id="result">
+      <label style="margin-top:4px;">Link Undangan</label>
+      <div class="link-box">
+        <input type="text" id="linkOutput" readonly>
+        <button class="action-btn" id="copyBtn">Salin</button>
+      </div>
+      <a class="wa-btn" id="waShareBtn" target="_blank" rel="noopener">Bagikan via WhatsApp ↗</a>
+      <p class="note">Salin link di atas dan kirimkan ke tamu, atau gunakan tombol WhatsApp untuk langsung membagikannya.</p>
+    </div>
+  </div>
+
+  <div class="history">
+    <h3>Riwayat Link (tersimpan di perangkat ini)</h3>
+    <div id="historyList"></div>
+  </div>
+</div>
+
+<script>
+  const guestInput = document.getElementById('guestName');
+  const genBtn = document.getElementById('genBtn');
+  const result = document.getElementById('result');
+  const linkOutput = document.getElementById('linkOutput');
+  const copyBtn = document.getElementById('copyBtn');
+  const waShareBtn = document.getElementById('waShareBtn');
+  const historyList = document.getElementById('historyList');
+
+  const STORAGE_KEY = 'undangan_guest_links_v1';
+
+  function buildLink(name){
+    const baseUrl = new URL(MAIN_INVITATION_FILE, window.location.href);
+    baseUrl.searchParams.set('to', name);
+    return baseUrl.toString();
+  }
+
+  function loadHistory(){
+    try{
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    }catch(e){ return []; }
+  }
+  function saveHistory(list){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+  }
+  function renderHistory(){
+    const list = loadHistory();
+    if(list.length === 0){
+      historyList.innerHTML = '<div class="empty">Belum ada link yang dibuat.</div>';
+      return;
+    }
+    historyList.innerHTML = '';
+    list.slice().reverse().forEach(function(item){
+      const row = document.createElement('div');
+      row.className = 'history-item';
+      row.innerHTML = '<span class="name">' + item.name + '</span>' +
+        '<button data-link="' + item.link + '">Salin Link</button>';
+      historyList.appendChild(row);
+    });
+    historyList.querySelectorAll('button[data-link]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        navigator.clipboard.writeText(btn.getAttribute('data-link'));
+        const old = btn.textContent;
+        btn.textContent = 'Tersalin!';
+        setTimeout(function(){ btn.textContent = old; }, 1500);
+      });
+    });
+  }
+
+  genBtn.addEventListener('click', function(){
+    const name = guestInput.value.trim();
+    if(!name){ guestInput.focus(); return; }
+    const link = buildLink(name);
+    linkOutput.value = link;
+    result.classList.add('show');
+    const waText = "Assalamu'alaikum " + name + ", kami mengundang Bapak/Ibu/Saudara/i untuk hadir di pernikahan kami. Berikut undangan digitalnya: " + link;
+    waShareBtn.href = "https://wa.me/?text=" + encodeURIComponent(waText);
+
+    const list = loadHistory();
+    list.push({ name: name, link: link });
+    saveHistory(list);
+    renderHistory();
+  });
+
+  copyBtn.addEventListener('click', function(){
+    navigator.clipboard.writeText(linkOutput.value).then(function(){
+      const old = copyBtn.textContent;
+      copyBtn.textContent = 'Tersalin!';
+      setTimeout(function(){ copyBtn.textContent = old; }, 1500);
+    });
+  });
+
+  renderHistory();
+</script>
+</body>
+</html>
