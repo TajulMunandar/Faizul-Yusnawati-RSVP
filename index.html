@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
-<script>const CONFIG={mapsAkad:"",mapsResepsi:"",waNumber:"6282275429988",musicUrl:"music.mp3"};</script>
+<script>const CONFIG={mapsAkad:"",mapsResepsi:"https://www.google.com/maps?q=5.131313323974609,97.15245819091797&z=17&hl=id",waNumber:"6282275429988",musicUrl:"music.mp3"};</script>
 <style>
 :root{
   --paper:#FDF9F6;
@@ -198,7 +198,8 @@ section.wide{max-width:980px}
 /* GALLERY */
 .gallery{margin-top:28px; display:grid; grid-template-columns:1.55fr .95fr; gap:12px}
 .gallery .g-main{grid-row:span 2; aspect-ratio:4/5}
-.gallery .g{position:relative; overflow:hidden; background:var(--paper-2); border:1px solid var(--line); cursor:pointer}
+.gallery .g{position:relative; overflow:hidden; background:var(--paper-2); border:1px solid var(--line); cursor:pointer; aspect-ratio:4/3}
+.gallery .g.g-main{aspect-ratio:4/5}
 .gallery img{width:100%; height:100%; object-fit:cover; transition:transform .8s ease}
 .gallery .g:hover img{transform:scale(1.04)}
 .gallery .cap{
@@ -236,10 +237,10 @@ section.wide{max-width:980px}
   margin-top:18px; display:grid; grid-template-columns:repeat(4,1fr); gap:10px;
 }
 .cd{
-  border:1px solid var(--line); padding:14px 8px; text-align:center; background:#fff;
+  border:1px solid rgba(255,255,255,.18); padding:14px 8px; text-align:center; background:rgba(255,255,255,.07);
 }
-.cd-num{font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; line-height:1}
-.cd-lbl{font-family:'Instrument Sans',sans-serif; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-top:4px}
+.cd-num{font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:400; line-height:1; color:#FFF8F0}
+.cd-lbl{font-family:'Instrument Sans',sans-serif; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--brass); margin-top:4px}
 @media(max-width:960px){.events{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){.events{grid-template-columns:1fr} .e-date{font-size:46px}}
 
@@ -411,6 +412,9 @@ footer p{font-size:13px; color:var(--muted); margin-top:10px}
       <div class="g g-main"><img src="foto/ARF_3979.JPEG" alt="Foto 1" loading="lazy"><span class="cap">Faizul & Yusnawati — Prewedding</span></div>
       <div class="g"><img src="foto/ARF_3828.JPEG" alt="Foto 2" loading="lazy"></div>
       <div class="g"><img src="foto/ARF_3839.JPEG" alt="Foto 3" loading="lazy"></div>
+      <div class="g"><img src="foto/IMG_4151.jpeg" alt="Foto 4" loading="lazy"></div>
+      <div class="g"><img src="foto/IMG_4152.jpeg" alt="Foto 5" loading="lazy"></div>
+      <div class="g"><img src="foto/IMG_4154.jpeg" alt="Foto 6" loading="lazy"></div>
     </div>
   </section>
   <div id="lightbox"><button class="lb-close">×</button><img src="" alt=""></div>
@@ -441,7 +445,7 @@ footer p{font-size:13px; color:var(--muted); margin-top:10px}
           <div class="e-time">Minggu, 11 Oktober 2026 — 10.00 WIB s.d. selesai</div>
           <div class="e-place">Di Rumah — Alue Awe</div>
           <div class="e-addr">Jalan Medan – Banda Aceh, depan Kantor Mahkamah Syariah, Alue Awe Dusun Chik Mahmud, Kec. Muara Dua, Kota Lhokseumawe</div>
-          <div class="map-embed"><iframe src="https://www.google.com/maps?q=Alue+Awe+Dusun+Chik+Mahmud+Lhokseumawe&z=16&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+          <div class="map-embed"><iframe src="https://www.google.com/maps?q=5.131313323974609,97.15245819091797&z=17&hl=id&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
           <div class="e-actions"><a class="btn-line" id="mapsResepsiBtn" target="_blank" rel="noopener">Lihat Lokasi →</a></div>
         </div>
       </div>
